@@ -1,0 +1,1 @@
+- To run database container and backend container: `docker-compose up -d` 

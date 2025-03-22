@@ -1,16 +1,17 @@
 import express from 'express';
-import { BaseController } from './controllers/abstractions/base-controller';
 import errorMiddleware from './middlewares/error.middleware';
+import { RequestHandler } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 export class App {
     public app: express.Application;
     public port: string | number;
 
-    constructor (port: string | number, controllers: BaseController[]) {
+    constructor (port: string | number, routers: any) {
         this.app = express();
         this.port = port;
         this.initializeMiddlewares();
-        this.initializeControllers(controllers);
+        this.initializeRouters(routers);
         this.initializeErrorHandling();
         this.listen();
     }
@@ -20,14 +21,14 @@ export class App {
 
     }
 
-    private initializeControllers(controllers: BaseController[]) {
+    private initializeRouters(routers: any) {
         this.app.get('/', (req, res) => {
             `<h1>The application is running on port ${this.port}</h1>`;
         });
 
-        controllers.forEach(controllers => {
-            this.app.use('/', controllers.router);  // define the absolute path of each controler's router
-        })
+        routers.forEach((router: { router: express.Router }) => {
+            this.app.use('/', router.router);  // define the absolute path of each controler's router
+        });
     }
 
     private initializeErrorHandling() {

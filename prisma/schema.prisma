@@ -14,7 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
+model test {
   id   Int     @id @default(autoincrement())
   name  String?
   favoriteNumber Int?
@@ -22,9 +22,11 @@ model Test {
   updatedAt DateTime @updatedAt
 }
 
-model Camera {
+model camera {
   id   Int     @id @default(autoincrement())
   location String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
