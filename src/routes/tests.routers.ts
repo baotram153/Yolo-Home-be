@@ -12,7 +12,7 @@ class TestRouter {
         this.router.get('/', TestController.getAll);
         this.router.get('/:id', TestController.getById);
         this.router.post('/', TestController.create);
-        // this.router.put('/test/:id', testController.update);
+        this.router.patch('/:id', TestController.update);
         this.router.delete('/:id', TestController.delete);
     }
 }

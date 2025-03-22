@@ -1,8 +1,8 @@
 import express from 'express';
 import { BaseController } from './abstractions/base.controller';
 import { TestNotFoundException } from '../exceptions/not-found-exception';
-import test from 'node:test';
-import { error } from 'console';
+import { TestService } from '../services/test.service';
+import { okResponse } from '../utils/successReponse';
 
 export class TestController extends BaseController {
 
@@ -11,53 +11,50 @@ export class TestController extends BaseController {
     }
 
     public static create = async (req: express.Request, res: express.Response) => {
-        const reqBody = req.body;
-        const result = await this.prisma.test.create({
-            data: {
-                name: reqBody.name,
-                favoriteNumber: reqBody.favoriteNumber,
-            }
-        })
-        res.json(result);
+        const test = req.body;
+        const result = await TestService.create(test);
+        return okResponse(res, "Test created successfully", result);
     }
 
     public static getAll = async (req: express.Request, res: express.Response) => {
-        const response = await this.prisma.test.findMany();
-        res.json(response);
+        const result = await TestService.getAll();
+        console.log(result);
+        return okResponse(res, "Get all tests successfully", result);
     }
 
     public static getById = async (
-        request: express.Request,
-        response: express.Response,
+        req: express.Request,
+        res: express.Response,
         next: express.NextFunction
     ) => {
-        const id = Number.parseInt(request.params.id);
-
-        this.prisma.test.findUnique({
-            where: {
-                id: id,
-            },
-        })
-        .then ((test) => {
-            if (!test) {
-                next(new TestNotFoundException(id));
-            } else {
-                response.json(test);
-            }
-        })
+        const id = Number.parseInt(req.params.id);
+        const result = await TestService.getById(id);
+        if (!result) {
+            next(new TestNotFoundException(id));
+        } else {
+            return okResponse(res, `Test with id ${id} get successfully`, result);
+        }
     }; 
 
-    public static delete = async (req: express.Request, res: express.Response) => {
+    public static update = async (req: express.Request, res: express.Response) => {
+        // if req.body.favoriteNumber is undefined, it will be null
         const id = Number.parseInt(req.params.id);
-        const test = await this.prisma.test.delete({
-            where: {
-                id: id,
-            },
-        }).then ((test) => {
-            res.json(test);
-        }).catch ((error) => {
-            console.log(error);
-            res.json(error.meta.cause);
-        })
+        const { name, favoriteNumber } = req.body;
+        const result = await TestService.update(id, name, favoriteNumber);
+        return okResponse(res, "Test updated successfully", result);
+    }
+
+    public static delete = async (
+        req: express.Request, 
+        res: express.Response, 
+        next: express.NextFunction
+    ) => {
+        const id = Number.parseInt(req.params.id);
+        const result = await TestService.delete(id);
+        if (!result) {
+            next(new TestNotFoundException(id));
+        } else {
+            return okResponse(res, "Test deleted successfully", result);
+        }
     }
 }
