@@ -2,14 +2,32 @@ import express from 'express';
 import errorMiddleware from './middlewares/error.middleware';
 import { RequestHandler } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
+import { AdafruitIO } from './adafruit/initConnection';
+// import dotenv from "dotenv";
+
+// dotenv.config()
 
 export class App {
     public app: express.Application;
     public port: string | number;
+    private adafruitClient: AdafruitIO;
 
     constructor (port: string | number, routers: any) {
         this.app = express();
         this.port = port;
+
+        // initialize mqtt
+        const ADAFRUIT_USERNAME = process.env.ADAFRUIT_USERNAME
+        const ADAFRUIT_KEY = process.env.ADAFRUIT_KEY
+
+        if (!ADAFRUIT_USERNAME) {
+            throw new Error("Missing API_USERNAME in environment variables");
+        }
+        if (!ADAFRUIT_KEY) {
+            throw new Error("Missing API_KEY in environment variables");
+        }   
+
+        this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility']);
         this.initializeMiddlewares();
         this.initializeRouters(routers);
         this.initializeErrorHandling();

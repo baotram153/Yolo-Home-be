@@ -13,13 +13,13 @@ export class TestController extends BaseController {
     public static create = async (req: express.Request, res: express.Response) => {
         const test = req.body;
         const result = await TestService.create(test);
-        return okResponse(res, "Test created successfully", result);
+        okResponse(res, "Test created successfully", result);
     }
 
     public static getAll = async (req: express.Request, res: express.Response) => {
         const result = await TestService.getAll();
         console.log(result);
-        return okResponse(res, "Get all tests successfully", result);
+        okResponse(res, "Get all tests successfully", result);
     }
 
     public static getById = async (
@@ -32,7 +32,7 @@ export class TestController extends BaseController {
         if (!result) {
             next(new TestNotFoundException(id));
         } else {
-            return okResponse(res, `Test with id ${id} get successfully`, result);
+            okResponse(res, `Test with id ${id} get successfully`, result);
         }
     }; 
 
@@ -41,7 +41,7 @@ export class TestController extends BaseController {
         const id = Number.parseInt(req.params.id);
         const { name, favoriteNumber } = req.body;
         const result = await TestService.update(id, name, favoriteNumber);
-        return okResponse(res, "Test updated successfully", result);
+        okResponse(res, "Test updated successfully", result);
     }
 
     public static delete = async (
@@ -54,7 +54,7 @@ export class TestController extends BaseController {
         if (!result) {
             next(new TestNotFoundException(id));
         } else {
-            return okResponse(res, "Test deleted successfully", result);
+            okResponse(res, "Test deleted successfully", result);
         }
     }
 }

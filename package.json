@@ -23,6 +23,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mqtt": "^5.10.4",
     "prisma": "^6.5.0",
     "rimraf": "^6.0.1",
     "typescript": "^5.8.2"
