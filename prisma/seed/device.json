@@ -1,0 +1,44 @@
+[
+    {
+        "id": "d1111111-1111-1111-1111-111111111111",
+        "name": "Living Room Light",
+        "type": "Light",
+        "userId": "11111111-1111-1111-1111-111111111111",
+        "room": "Living Room"
+    },
+    {
+        "id": "d2222222-2222-2222-2222-222222222222",
+        "name": "Bedroom Thermostat",
+        "type": "Thermostat",
+        "userId": "11111111-1111-1111-1111-111111111111",
+        "room": "Bedroom"
+    },
+    {
+        "id": "d3333333-3333-3333-3333-333333333333",
+        "name": "Kitchen Camera",
+        "type": "Camera",
+        "userId": "11111111-1111-1111-1111-111111111111",
+        "room": "Kitchen"
+    },
+    {
+        "id": "d4444444-4444-4444-4444-444444444444",
+        "name": "Bathroom Hygrometer",
+        "type": "Hygrometer",
+        "userId": "22222222-2222-2222-2222-222222222222",
+        "room": "Bathroom"
+    },
+    {
+        "id": "d5555555-5555-5555-5555-555555555555",
+        "name": "Garage Door Opener",
+        "type": "Garage Door Opener",
+        "userId": "22222222-2222-2222-2222-222222222222",
+        "room": "Garage"
+    },
+    {
+        "id": "d6666666-6666-6666-6666-666666666666",
+        "name": "Bedroom Fan",
+        "type": "Fan",
+        "userId": "33333333-3333-3333-3333-333333333333",
+        "room": "Garden"
+    }
+]

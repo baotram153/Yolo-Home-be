@@ -11,7 +11,12 @@
     "predev": "npm run build",
     "dev": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon dist/index.js\"",
     "deploy": "npx prisma generate && npx prisma migrate deploy && npm run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "npx prisma migrate dev --name init && npx prisma generate",
+    "seed": "npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   },
   "author": "",
   "license": "ISC",

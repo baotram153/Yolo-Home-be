@@ -14,19 +14,89 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model test {
-  id   Int     @id @default(autoincrement())
-  name  String?
-  favoriteNumber Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id            String    @id @default(uuid())
+  username      String    @unique
+  avatar_url    String?   
+  password      String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  devices       Device[]
+  notifications Notification[]
+
+  @@map("users")
 }
 
-model camera {
-  id   Int     @id @default(autoincrement())
-  location String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Device {
+  id            String        @id @default(uuid())
+  name          String?
+  type          String?
+  userId        String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  room          String        
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  device_logs           DeviceLog[]
+  device_commands       DeviceCommand[]
+  automation_scenarios  AutomationScenario[]
+
+  @@map("device")
 }
 
+model DeviceLog {
+  id            String    @id @default(uuid())
+  deviceId      String
+  value         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  device        Device    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
+  @@map("device_log")
+}
+
+model DeviceCommand {
+  id            String    @id @default(uuid())
+  deviceId      String
+  command       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  device        Device    @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@map("device_command")
+}
+
+model AutomationScenario {
+  id                  String    @id @default(uuid())
+  set_by_condition    Boolean   @default(false)
+  set_by_time         Boolean   @default(false)
+
+  condition           String?
+  threshold           Int?
+  interval            Int?
+
+  start_time          DateTime?
+  end_time            DateTime?
+
+  status              String?
+  deviceId            String?
+
+  device              Device?   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@map("automation_scenario")
+}
+
+model Notification {
+  id            String    @id @default(uuid())
+  userId        String
+  type          String?
+  message       String?
+  status        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification")
+}
