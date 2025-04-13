@@ -49,8 +49,8 @@ model Device {
 
 model DeviceLog {
   id            String    @id @default(uuid())
-  device_id      String
-  value         String?
+  device_id     String
+  value         String
   created_at     DateTime  @default(now())   
   updated_at     DateTime  @updatedAt
   device        Device    @relation(fields: [device_id], references: [id], onDelete: Cascade)
