@@ -11,6 +11,7 @@ export class DeviceController extends BaseController {
     }
 
     public static create = async (req: express.Request, res: express.Response) => {
+        console.log(req.user)
         const user_id = req.user.user_id;
         const device = req.body;
         const result = await DeviceService.create(user_id, device);

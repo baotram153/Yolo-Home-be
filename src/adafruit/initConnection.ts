@@ -1,4 +1,5 @@
 import { MqttClient } from "mqtt/*";
+import { LogService } from "../services/logs.service";
 
 const mqtt = require('mqtt'); // If using Node.js
 
@@ -7,7 +8,7 @@ export class AdafruitIO {
     private ADAFRUIT_USERNAME: string;
     private ADAFRUIT_AIO_KEY: string;
     private FEED_NAMEs: string[];
-    private client: MqttClient;
+    public client: MqttClient;
 
     // Connect to Adafruit IO MQTT broker
     constructor(username: string, key: string, feedName: string[]) {
@@ -45,6 +46,30 @@ export class AdafruitIO {
         // Handle incoming messages
         this.client.on('message', (topic: string, message: Buffer) => {
             console.log(`Received message on ${topic}: ${message.toString()}`);
+            if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[0]}`) {
+                // handle message into led channel
+                console.log(`Message from ${this.FEED_NAMEs[0]}: ${message.toString()}`);
+
+                // push the log to the database
+                try {
+                    LogService.create("265c89cc-fa6e-4a05-81f7-6d0b8f37a50c", message.toString())
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+            else if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[1]}`) {
+                // handle message into humidity channel
+                console.log(`Message from ${this.FEED_NAMEs[1]}: ${message.toString()}`);
+
+                // push the log to the database
+                try {
+                    LogService.create("85646821-3d30-4f59-b136-68b7020b2920", message.toString())
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
         });
 
         // Handle errors

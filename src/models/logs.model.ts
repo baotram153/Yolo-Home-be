@@ -2,7 +2,7 @@ import { BaseModel } from "./base.model";
 
 export interface Log {
     id: string | null;
-    device_id: string;
+    device_id: string | null;
     value: string;
 }
 
@@ -35,12 +35,12 @@ export class LogModel extends BaseModel{
         }
     }
 
-    public static async create(device_id:string, log: Log) {
+    public static async create(device_id:string, value: string) {
         try {
             const result = await this.prisma.deviceLog.create({
                 data: {
                     device_id: device_id,
-                    value: log.value,
+                    value: value,
                 }
             })
             return result

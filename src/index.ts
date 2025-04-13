@@ -8,5 +8,5 @@ import { accessRouter } from "./routes/access.router";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const app = new App(port, [accessRouter], [baseRouter]);
+export const app = new App(port, [accessRouter], [baseRouter]);
 

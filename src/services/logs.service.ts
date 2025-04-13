@@ -1,6 +1,7 @@
 import { Log } from "../models/logs.model";
 import { LogModel } from "../models/logs.model";
 
+
 export class LogService {
     public static async getAll(device_id: string) {
         const result = await LogModel.getAll(device_id);
@@ -12,8 +13,10 @@ export class LogService {
         return result;
     }
 
-    public static async create(device_id:string, log: Log) {
-        const result = await LogModel.create(device_id, log);
+    public static async create(device_id:string, value: string) {
+        // update data to database
+        const result = await LogModel.create(device_id, value);
+
         return result;
     }
 

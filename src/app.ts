@@ -11,7 +11,7 @@ import { Authentication } from './authentication/authUtils';
 export class App {
     public app: express.Application;
     public port: string | number;
-    private adafruitClient: AdafruitIO;
+    public adafruitClient: AdafruitIO;
 
     constructor (port: string | number,access_routers:any, other_routers: any) {
         this.app = express();
@@ -28,7 +28,7 @@ export class App {
             throw new Error("Missing API_KEY in environment variables");
         }   
 
-        this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility']);
+        this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility', 'FAN']);
         this.initializeAccessRouters(access_routers);
         this.initializeMiddlewares();
         this.initializeRouters(other_routers);

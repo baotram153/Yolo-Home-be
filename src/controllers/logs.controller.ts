@@ -23,8 +23,8 @@ export class LogController {
 
     public static async create (req: any, res: any) {
         const device_id = req.params.device_id;
-        const log = req.body;
-        const result = await LogService.create(device_id, log);
+        const { value } = req.body;
+        const result = await LogService.create(device_id, value);
         okResponse(res, "Log created successfully", result);
     }
 
