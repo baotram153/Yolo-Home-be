@@ -14,8 +14,13 @@ export class DeviceService {
         return result;
     }
 
-    public static async create(device: Device) {
-        const result = await DeviceModel.create(device);
+    public static async getByUserId(userId: string) {
+        const result = await DeviceModel.getByUserId(userId);
+        return result;
+    }
+
+    public static async create(user_id:string, device: Device) {
+        const result = await DeviceModel.create(user_id, device);
         return result;
     }
 

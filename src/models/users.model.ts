@@ -1,7 +1,6 @@
 import { BaseModel } from './base.model';
 
 export interface User {
-    id: string,
     username: string,
     avatar_url: string,
     password: string
@@ -17,7 +16,6 @@ export class UserModel extends BaseModel {
         catch (error) {
             console.log(error);
         }
-        
     }
 
     public static async getByUserId(userId: string) {
@@ -34,6 +32,21 @@ export class UserModel extends BaseModel {
             console.log(error);
         }
     }
+
+    public static async getByUsername(username: string) {
+        try {
+            const result = await this.prisma.user.findUnique({
+                where: {
+                    username: username,
+                },
+            })
+            return result
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
 
     public static async create(user: User) {
         try {
@@ -106,7 +119,7 @@ export class UserModel extends BaseModel {
             try {
                 const result = await this.prisma.device.findMany({
                     where: {
-                        userId: userId,
+                        user_id: userId,
                     },
                 })
                 console.log(result)

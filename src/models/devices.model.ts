@@ -1,12 +1,11 @@
 import { BaseModel } from './base.model';
 // import { DeviceNotFoundException } from '../exceptions/not-found-exception';
-
+// Updated Device interface with snake_case field naming
 export interface Device {
-    id: string,
-    name: string,
-    type: string,
-    userId: string,
-    room: string
+    id: string;
+    name: string;
+    type: string;
+    room: string;
 }
 
 export class DeviceModel extends BaseModel {
@@ -23,13 +22,13 @@ export class DeviceModel extends BaseModel {
     }
 
 
-    public static async create(device: Device) {
+    public static async create(user_id:string, device: Device) {
         try {
             const result = await this.prisma.device.create({
                 data: {
                     name: device.name,
                     type: device.type,
-                    userId: device.userId,
+                    user_id: user_id,
                     room: device.room,
                 }
             })
@@ -44,6 +43,20 @@ export class DeviceModel extends BaseModel {
             const result = await this.prisma.device.findUnique({
                 where: {
                     id: id,
+                },
+            })
+            return result
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    public static async getByUserId(userId: string) {
+        try {
+            const result = await this.prisma.device.findMany({
+                where: {
+                    user_id: userId,
                 },
             })
             return result

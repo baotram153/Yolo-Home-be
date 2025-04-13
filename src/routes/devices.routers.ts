@@ -9,8 +9,8 @@ class DeviceRouter {
     }
 
     private initializeRoutes() {
-        this.router.get('/', DeviceController.getAll);
-        this.router.get('/:id', DeviceController.getById);
+        // this.router.get('/', DeviceController.getAll);
+        this.router.get('/', DeviceController.getByUserId);
         this.router.post('/', DeviceController.create);
         this.router.patch('/:id', DeviceController.update);
         this.router.delete('/:id', DeviceController.delete);

@@ -11,8 +11,9 @@ export class DeviceController extends BaseController {
     }
 
     public static create = async (req: express.Request, res: express.Response) => {
+        const user_id = req.user.user_id;
         const device = req.body;
-        const result = await DeviceService.create(device);
+        const result = await DeviceService.create(user_id, device);
         okResponse(res, "Device created successfully", result);
     }
 
@@ -35,6 +36,21 @@ export class DeviceController extends BaseController {
             okResponse(res, `Device with id ${id} get successfully`, result);
         }
     }; 
+
+    public static getByUserId = async (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        console.log(req.user)
+        const id = req.user.user_id;
+        const result = await DeviceService.getByUserId(id);
+        if (!result) {
+            next(new DeviceNotFoundException(id));
+        } else {
+            okResponse(res, `Device with user id ${id} get successfully`, result);
+        }
+    }
 
     public static update = async (req: express.Request, res: express.Response) => {
         // if req.body.favoriteNumber is undefined, it will be null
