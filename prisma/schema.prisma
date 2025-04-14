@@ -123,4 +123,6 @@ model Feed {
   device_id   String    
 
   device      Device    @relation(fields: [device_id], references: [id], onDelete: Cascade)
+  
+  @@map("feed")
 }
