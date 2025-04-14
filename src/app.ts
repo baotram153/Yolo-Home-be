@@ -28,7 +28,7 @@ export class App {
             throw new Error("Missing API_KEY in environment variables");
         }   
 
-        this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility', 'FAN']);
+        this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility', 'FAN', 'DOOR']);
         this.initializeAccessRouters(access_routers);
         this.initializeMiddlewares();
         this.initializeRouters(other_routers);

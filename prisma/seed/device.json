@@ -1,36 +1,36 @@
 [
     {
         "id": "d1111111-1111-1111-1111-111111111111",
-        "name": "Living Room Light",
-        "type": "Light",
+        "name": "Living Room Thermostat",
+        "type": "Thermostat",
         "user_id": "11111111-1111-1111-1111-111111111111",
         "room": "Living Room"
     },
     {
         "id": "d2222222-2222-2222-2222-222222222222",
-        "name": "Bedroom Thermostat",
-        "type": "Thermostat",
+        "name": "Bedroom Humidity Sensor",
+        "type": "Humidity Sensor",
         "user_id": "11111111-1111-1111-1111-111111111111",
         "room": "Bedroom"
     },
     {
         "id": "d3333333-3333-3333-3333-333333333333",
-        "name": "Kitchen Camera",
-        "type": "Camera",
+        "name": "Kitchen Door Opener",
+        "type": "Door Opener",
         "user_id": "11111111-1111-1111-1111-111111111111",
         "room": "Kitchen"
     },
     {
         "id": "d4444444-4444-4444-4444-444444444444",
-        "name": "Bathroom Hygrometer",
-        "type": "Hygrometer",
+        "name": "Dining Room Fan",
+        "type": "Fan",
         "user_id": "22222222-2222-2222-2222-222222222222",
-        "room": "Bathroom"
+        "room": "Dining Room"
     },
     {
         "id": "d5555555-5555-5555-5555-555555555555",
-        "name": "Garage Door Opener",
-        "type": "Garage Door Opener",
+        "name": "Garage Camera",
+        "type": "Camera",
         "user_id": "22222222-2222-2222-2222-222222222222",
         "room": "Garage"
     },

@@ -46,29 +46,41 @@ export class AdafruitIO {
         // Handle incoming messages
         this.client.on('message', (topic: string, message: Buffer) => {
             console.log(`Received message on ${topic}: ${message.toString()}`);
-            if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[0]}`) {
-                // handle message into led channel
-                console.log(`Message from ${this.FEED_NAMEs[0]}: ${message.toString()}`);
+            // Hard coded
+            // if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[0]}`) {
+            //     // handle message into led channel
+            //     console.log(`Message from ${this.FEED_NAMEs[0]}: ${message.toString()}`);
 
-                // push the log to the database
-                try {
-                    LogService.create("265c89cc-fa6e-4a05-81f7-6d0b8f37a50c", message.toString())
-                }
-                catch (error) {
-                    console.log(error);
-                }
+            //     // push the log to the database
+            //     try {
+            //         LogService.create("265c89cc-fa6e-4a05-81f7-6d0b8f37a50c", message.toString())
+            //     }
+            //     catch (error) {
+            //         console.log(error);
+            //     }
+            // }
+            // else if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[1]}`) {
+            //     // handle message into humidity channel
+            //     console.log(`Message from ${this.FEED_NAMEs[1]}: ${message.toString()}`);
+
+            //     // push the log to the database
+            //     try {
+            //         LogService.create("85646821-3d30-4f59-b136-68b7020b2920", message.toString())
+            //     }
+            //     catch (error) {
+            //         console.log(error);
+            //     }
+            // }
+
+            // split the message to get the feed
+            const feed = topic.split('/').slice(-1)[0];
+            
+            // call the log service to update message to the database
+            try {
+                LogService.createFromFeed(feed, message.toString())
             }
-            else if (topic == `${this.ADAFRUIT_USERNAME}/feeds/${this.FEED_NAMEs[1]}`) {
-                // handle message into humidity channel
-                console.log(`Message from ${this.FEED_NAMEs[1]}: ${message.toString()}`);
-
-                // push the log to the database
-                try {
-                    LogService.create("85646821-3d30-4f59-b136-68b7020b2920", message.toString())
-                }
-                catch (error) {
-                    console.log(error);
-                }
+            catch (error) {
+                console.log(error);
             }
         });
 

@@ -3,7 +3,7 @@ const { PrismaClient, Prisma } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 const main = async () => {
-    const tables = ["user", "device", "notification", "automationScenario", "deviceLog", "deviceCommand"]
+    const tables = ["user", "device", "notification", "automationScenario", "deviceLog", "deviceCommand", "feed"]
     for (const table of tables.slice().reverse()) {
         await prisma[table].deleteMany()
         console.log(`Deleted all records from ${table}`)

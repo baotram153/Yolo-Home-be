@@ -43,6 +43,7 @@ model Device {
   device_logs           DeviceLog[]
   device_commands       DeviceCommand[]
   automation_scenarios  AutomationScenario[]
+  feeds                 Feed[]
 
   @@map("device")
 }
@@ -114,3 +115,12 @@ model UserSession {
 
   @@map("user_session")
 } 
+
+model Feed {
+  id        String    @id @default(uuid())
+  feed_name       String    @unique
+  description String?
+  device_id   String    
+
+  device      Device    @relation(fields: [device_id], references: [id], onDelete: Cascade)
+}

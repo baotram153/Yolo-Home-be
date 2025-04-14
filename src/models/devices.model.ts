@@ -44,7 +44,7 @@ export class DeviceModel extends BaseModel {
                 where: {
                     id: id,
                 },
-            })
+            }) 
             return result
         }
         catch (error) {
