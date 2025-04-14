@@ -4,6 +4,7 @@ import { RequestHandler } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
 import { AdafruitIO } from './adafruit/initConnection';
 import { Authentication } from './authentication/authUtils';
+const cors = require('cors');
 // import dotenv from "dotenv";
 
 // dotenv.config()
@@ -29,19 +30,25 @@ export class App {
         }   
 
         this.adafruitClient= new AdafruitIO(ADAFRUIT_USERNAME, ADAFRUIT_KEY, ['BBC_TEMP', 'humility', 'FAN', 'DOOR']);
-        this.initializeAccessRouters(access_routers);
         this.initializeMiddlewares();
+        this.initializeAccessRouters(access_routers);
+        this.app.use(Authentication.authenticateUser);  // add authentication middleware to all routes
         this.initializeRouters(other_routers);
         this.initializeErrorHandling();
         this.listen();
     }
 
     private initializeMiddlewares() {
+        this.app.use(cors())
         this.app.use(express.json());
-        this.app.use(Authentication.authenticateUser);  // add authentication middleware to all routes
     }
 
     private initializeAccessRouters(routers: any) {
+        this.app.get('/', (req: express.Request, res: express.Response) => {
+            res.send('Hello World!');
+            console.log('The app is running on port: ', this.port);
+        })
+        
         // initialize access routers before authentication middleware
         routers.forEach((router: { router: express.Router }) => {
             this.app.use('/api/v1/access', router.router);  // define the absolute path of each controler's router
@@ -49,10 +56,6 @@ export class App {
     }
 
     private initializeRouters(routers: any) {
-        this.app.get('/', (req: express.Request, res: express.Response) => {
-            res.send('Hello World!');
-            console.log('The app is running on port: ', this.port);
-        })
 
         routers.forEach((router: { router: express.Router }) => {
             this.app.use('/', router.router);  // define the absolute path of each controler's router
