@@ -14,8 +14,8 @@ export class CommandService {
         return result;
     }
 
-    public static async create (device_id:string, command: Command) {
-        const result = await CommandModel.create(device_id, command);
+    public static async create (device_id:string, command: string) {
+        // const result = await CommandModel.create(device_id, command);
         // hardcoded
         // if (device_id == '32f772bc-99a5-4fc9-8bd8-683775d1e13e') {
         //     app.adafruitClient.client.publish(`${process.env.ADAFRUIT_USERNAME}/feeds/FAN`, command.command);
@@ -34,11 +34,26 @@ export class CommandService {
         else {
             feedInfo.forEach((feed) => {
                 console.log("Feed name: ", feed.feed_name)
-                app.adafruitClient.client.publish(`${process.env.ADAFRUIT_USERNAME}/feeds/${feed.feed_name}`, command.command);
+                app.adafruitClient.client.publish(`${process.env.ADAFRUIT_USERNAME}/feeds/${feed.feed_name}`, command);
                 console.log('Published')
             })
-            
         }
+        return device_id;
+    }
+
+    public static async createFromFeed (feed: string, command: string) {
+        // check if the feed exists in database -> get device Id
+        console.log("Feed name: ", feed)
+        const feedInfo = await FeedModel.getByFeedName(feed);
+        if (!feedInfo) {
+            console.log("Feed not found")
+            return null;
+        };
+        const device_id = feedInfo.device_id;
+
+        // create log in database
+        const result  = await CommandModel.create(device_id, {id: null, device_id: device_id, command: command});
+        console.log("Command created: ", result)
         return result;
     }
 }

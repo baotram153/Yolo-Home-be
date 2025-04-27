@@ -79,6 +79,10 @@ export class AccessService {
             default: console.warn('Invalid time unit for refresh token expiration'); break;
         }
 
+        // delete expired sessions before creating a new one
+        const deletedSessions = await UserSessionModel.deleteExpiredSessions();
+        console.log('Deleted expired sessions: ', deletedSessions)
+
         // create new session in database
         const session = await UserSessionModel.createSession(user.id, refresh_token, expiresAt);
         if (!session) {

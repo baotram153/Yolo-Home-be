@@ -1,5 +1,6 @@
 import { MqttClient } from "mqtt/*";
 import { LogService } from "../services/logs.service";
+import { CommandService} from "../services/commands.service";
 
 const mqtt = require('mqtt'); // If using Node.js
 
@@ -37,9 +38,8 @@ export class AdafruitIO {
                 });
 
                 // Publish a test message to the feed
-                this.client.publish(`${this.ADAFRUIT_USERNAME}/feeds/${feed}`, 'Hello from JavaScript!');
+                // this.client.publish(`${this.ADAFRUIT_USERNAME}/feeds/${feed}`, 'Hello from JavaScript!');
             })
-
             
         });
 
@@ -78,6 +78,7 @@ export class AdafruitIO {
             // call the log service to update message to the database
             try {
                 LogService.createFromFeed(feed, message.toString())
+                CommandService.createFromFeed(feed, message.toString())
             }
             catch (error) {
                 console.log(error);

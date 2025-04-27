@@ -45,4 +45,20 @@ export class UserSessionModel extends BaseModel{
             console.log(error);
         }
     }   
+
+    public static async deleteExpiredSessions() {
+        try {
+            const result = await this.prisma.userSession.deleteMany({
+                where: {
+                    expires_at: {
+                        lt: new Date(), // delete all sessions that are expired
+                    }
+                }
+            })
+            return result
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 }
