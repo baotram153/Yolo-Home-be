@@ -138,4 +138,16 @@ export class AccessService {
         return access_token
     }
 
+    public static verifyAccessToken = async (accessToken: string) => {
+        // check if user's token is valid, return corresponding user
+        let user: {user_id: string, username: string} = {user_id: '', username: ''};
+        jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET, (err: any, userData: any) => {
+            if (err) {
+                console.log('Invalid access token');
+                return null;
+            }
+            user = userData
+        })
+        return user
+    }
 }

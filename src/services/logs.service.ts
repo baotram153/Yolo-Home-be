@@ -1,7 +1,17 @@
 import { Log } from "../models/logs.model";
 import { LogModel } from "../models/logs.model";
 import { FeedModel } from "../models/feed.model";
+import { DeviceModel } from "../models/devices.model";
 
+import { SocketIO } from "../websocket/initWebsocket";
+
+interface Notification {
+    id: number
+    title: string
+    description: string
+    is_read: boolean
+    timestamp: string // ISO format
+  }
 
 export class LogService {
     public static async getAll(device_id: string) {
@@ -43,8 +53,34 @@ export class LogService {
         };
         const device_id = feedInfo.device_id;
 
+        const deviceInfo = await DeviceModel.getById(device_id);
+        if (!deviceInfo) {
+            console.log("Failed to get device info")
+            return null;
+        };
+
+        // TODO: enable to set a threshold for each device type (add attribute min threshold max threshold to device table)
+        console.log("Device type: ", deviceInfo.type)
+        if (deviceInfo.type?.toLowerCase() == "thermostat" && parseInt(value) > 40) {
+            console.log("Temperature is too high")
+            const notification: Notification = {
+                id: 123,
+                title: "Temperature Alert",
+                description: `Temperature is too high: ${value}C`,
+                is_read: false,
+                timestamp: new Date().toISOString()
+            }
+            console.log("Notification: ", notification)
+            console.log("User id: ", deviceInfo.user_id)
+            console.log("Sending notification to user...")
+            SocketIO.sendMessageToUser(deviceInfo.user_id, "notification", notification);
+        }
+
         // create log in database
-        const result  = this.create(device_id, value);
+        const result  = await this.create(device_id, value);
+
+        console.log("Log created: ", result)
+
         return result;
     }
 }

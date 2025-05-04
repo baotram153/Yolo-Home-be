@@ -89,6 +89,8 @@ export class AdafruitIO {
         this.client.on('error', (err: any) => {
             console.error('MQTT Error:', err);
         });
+
+        // TODO: Divide the feeds into command and log feeds
     }
 
     static async uploadApplianceInfo() {
