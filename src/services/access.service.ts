@@ -111,7 +111,7 @@ export class AccessService {
 
     public static refreshToken = async (refreshToken: string) => {
         // check if refresh token is valid
-        let user : {userId: string, username: string} = {userId: '', username: ''};
+        let user : {user_id: string, username: string} = {user_id: '', username: ''};
         jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err: any, userData: any) => {
             if (err) {
                 console.log('Invalid refresh token');
@@ -130,7 +130,7 @@ export class AccessService {
 
         // create and return a new access token
         const access_token = jwt.sign(
-            { user_id: user.userId, username: user.username },
+            { user_id: user.user_id, username: user.username },
             process.env.JWT_ACCESS_SECRET,
             { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN }
         )
