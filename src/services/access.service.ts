@@ -103,7 +103,7 @@ export class AccessService {
         // remove refresh token from database
         const result = await UserSessionModel.removeSession(refreshToken);
         if (!result) {
-            console.log('Failed to logout');
+            console.log('The session has already expired and removed from database');
             return null;
         }
         return result;

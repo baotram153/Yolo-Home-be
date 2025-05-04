@@ -32,9 +32,9 @@ export class AccessController extends BaseController{
         // refresh token sent to server -> remove the token from database -> create a new refresh token in the next login
         const { refreshToken } = req.body;
         const result = await AccessService.logout(refreshToken);
-        if (!result) {
-            return res.status(403).json({ message: 'Invalid refresh token' });
-        }
+        // if (!result) {
+        //     return res.status(403).json({ message: 'The session has already expired' });
+        // }
         okResponse(res, 'User logged out successfully', result)
     };
 
