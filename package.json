@@ -13,10 +13,11 @@
     "deploy": "npx prisma generate && npx prisma migrate deploy && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "npx prisma migrate dev --name init && npx prisma generate",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "backup": "node prisma/backup.js"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/backup.js"
   },
   "author": "",
   "license": "ISC",

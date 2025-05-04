@@ -4,14 +4,8 @@ import { FeedModel } from "../models/feed.model";
 import { DeviceModel } from "../models/devices.model";
 
 import { SocketIO } from "../websocket/initWebsocket";
-
-interface Notification {
-    id: number
-    title: string
-    description: string
-    is_read: boolean
-    timestamp: string // ISO format
-  }
+import { Notification } from "../models/notification.model";    // import interface for
+import { NotificationModel } from "../models/notification.model";
 
 export class LogService {
     public static async getAll(device_id: string) {
@@ -63,17 +57,20 @@ export class LogService {
         console.log("Device type: ", deviceInfo.type)
         if (deviceInfo.type?.toLowerCase() == "thermostat" && parseInt(value) > 40) {
             console.log("Temperature is too high")
-            const notification: Notification = {
-                id: 123,
-                title: "Temperature Alert",
-                description: `Temperature is too high: ${value}C`,
-                is_read: false,
-                timestamp: new Date().toISOString()
+            // TODO: set adjustable threshold
+            const temp_noti: Notification = {
+                id: null,
+                user_id: deviceInfo.user_id,
+                type: "warning",
+                header: "Temperature Alert",
+                status: "unread",
+                description: `Temperature is too high: ${value}C, exceeds 40C`,
             }
-            console.log("Notification: ", notification)
-            console.log("User id: ", deviceInfo.user_id)
-            console.log("Sending notification to user...")
-            SocketIO.sendMessageToUser(deviceInfo.user_id, "notification", notification);
+            const result = await NotificationModel.create(deviceInfo.user_id, temp_noti)
+            // console.log("Notification: ", notification)
+            // console.log("User id: ", deviceInfo.user_id)
+            // console.log("Sending notification to user...")
+            SocketIO.sendMessageToUser(deviceInfo.user_id, "notification", result);
         }
 
         // create log in database

@@ -6,6 +6,7 @@ import { userRouter } from './users.routers';
 import { automationRouter } from './automations.router';
 import { logRouter } from './logs.router';
 import { commandRouter } from './commands.router';
+import { notificationRouter } from './notification.router';
 
 class BaseRouter {
     public static base_path = '/api/v1';
@@ -14,6 +15,7 @@ class BaseRouter {
     public static automation_path = this.base_path;
     public static log_path = this.base_path
     public static command_path = this.base_path
+    public static notification_path = this.base_path + '/notifications';
     public router: express.Router;
 
     constructor() {
@@ -27,6 +29,7 @@ class BaseRouter {
         this.router.use(BaseRouter.automation_path, automationRouter.router);
         this.router.use(BaseRouter.log_path, logRouter.router);
         this.router.use(BaseRouter.command_path, commandRouter.router);
+        this.router.use(BaseRouter.notification_path, notificationRouter.router);
     }
 }
 
