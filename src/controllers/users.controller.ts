@@ -17,9 +17,10 @@ export class UserController extends BaseController {
     }
 
     public static getAll = async (req: express.Request, res: express.Response) => {
-        const result = await UserService.getAll();
-        console.log(result);
-        okResponse(res, "Get all Users successfully", result);
+        // const result = await UserService.getAll();
+        const user = req.user;
+        console.log("User:", user);
+        okResponse(res, "Get User Info successfully", user);
     }
 
     public static getById = async (

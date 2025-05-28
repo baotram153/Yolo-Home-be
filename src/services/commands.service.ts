@@ -1,6 +1,7 @@
 import { Command } from "../models/commands.model";
 import { CommandModel } from "../models/commands.model";
 import { FeedModel } from "../models/feed.model";
+import { DeviceService } from "./device.service";
 import { app } from "../index";
 
 export class CommandService {
@@ -34,7 +35,7 @@ export class CommandService {
         else {
             feedInfo.forEach((feed) => {
                 console.log("Feed name: ", feed.feed_name)
-                app.adafruitClient.client.publish(`${process.env.ADAFRUIT_USERNAME}/feeds/${feed.feed_name}`, command);
+                // app.adafruitClient.client.publish(`${process.env.ADAFRUIT_USERNAME}/feeds/${feed.feed_name}`, command);
                 console.log('Published')
             })
         }
@@ -44,6 +45,7 @@ export class CommandService {
     public static async createFromFeed (feed: string, command: string) {
         // check if the feed exists in database -> get device Id
         console.log("Feed name: ", feed)
+        const updateIf = ['fan', 'door']
         const feedInfo = await FeedModel.getByFeedName(feed);
         if (!feedInfo) {
             console.log("Feed not found")
@@ -51,9 +53,20 @@ export class CommandService {
         };
         const device_id = feedInfo.device_id;
 
+        // get device info from device id
+        const deviceInfo = await DeviceService.getById(device_id);
+
         // create log in database
-        const result  = await CommandModel.create(device_id, {id: null, device_id: device_id, command: command});
-        console.log("Command created: ", result)
-        return result;
+        if (!deviceInfo || !deviceInfo.type) {
+            console.log("Failed to get device type")
+            return null;
+        };
+        
+        if (updateIf.includes(deviceInfo.type.toLowerCase())) {
+            console.log("Device type: ", deviceInfo.type)
+            const result  = await CommandModel.create(device_id, {id: null, device_id: device_id, command: command});
+            console.log("Command created: ", result)
+            return result;
+        }   
     }
 }

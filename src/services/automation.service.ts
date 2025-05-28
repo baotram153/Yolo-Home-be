@@ -4,7 +4,6 @@ import { AutomationModel } from "../models/automation.model";
 export class AutomationService {
     public static async getAll(device_id:string) {
         const result = await AutomationModel.getAll(device_id);
-        console.log(result);
         return result;
     }
 
@@ -18,13 +17,14 @@ export class AutomationService {
         set_by_condition: boolean | null = null,
         set_by_time: boolean | null = null,
         condition: string | null = null,
-        threshold: number | null = null,
+        upper_bound: number | null = null,
+        lower_bound: number | null = null,
         interval: number | null = null,
         start_time: Date | null = null,
         end_time: Date | null = null,
         status: string | null = null
     ) {
-        const result = await AutomationModel.update(id, set_by_condition, set_by_time, condition, threshold, interval, start_time, end_time, status);
+        const result = await AutomationModel.update(id, set_by_condition, set_by_time, condition, upper_bound, lower_bound, interval, start_time, end_time, status);
         return result;
     }
 

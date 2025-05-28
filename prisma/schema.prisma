@@ -76,7 +76,8 @@ model AutomationScenario {
   set_by_time         Boolean   @default(false)
 
   condition           String?
-  threshold           Int?
+  lower_bound         Int?
+  upper_bound         Int?
   interval            Int?
 
   start_time          DateTime?
@@ -122,6 +123,9 @@ model Feed {
   feed_name   String    @unique
   description String?
   device_id   String    
+  type        String?   // "temperature", "humidity", etc.
+  log         Boolean   
+  command     Boolean   
 
   device      Device    @relation(fields: [device_id], references: [id], onDelete: Cascade)
   

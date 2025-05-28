@@ -8,6 +8,7 @@ const cors = require('cors');
 
 // libs for voice command
 import { speechRouter } from './routes/speech.router';
+import { userRouter } from './routes/users.routers';
 
 // libs for websocket connection
 import { Server } from 'socket.io';
@@ -22,7 +23,7 @@ export class App {
     // public io: Server;
     public socketIO: SocketIO;
     public port: string | number;
-    public adafruitClient: AdafruitIO;
+    // public adafruitClient: AdafruitIO;
 
     constructor (port: string | number, access_routers:any, other_routers: any) {
         this.app = express();
@@ -36,12 +37,13 @@ export class App {
         console.log(this.server.address())
         // this.io = this.initializeWebSocket(this.server); // create a websocket server
         this.socketIO = this.initializeWebSocket(this.server); // create a websocket server
-        this.adafruitClient = this.initializeAdafruitIO();
+        // this.adafruitClient = this.initializeAdafruitIO();
         this.app.post('/api/v1/speech', speechRouter.router) // TODO: move this to base router
         this.initializeMiddlewares();
         this.initializeAccessRouters(access_routers);
         this.app.use(Authentication.authenticateUser);  // add authentication middleware to all routes
         this.initializeRouters(other_routers);
+        this.app.use('/api/v1/info', userRouter.router); // TODO: move this to base router=
         this.initializeErrorHandling();
         // this.listen()
     }
@@ -65,7 +67,9 @@ export class App {
     }
 
     private initializeMiddlewares() {
-        this.app.use(cors())
+        this.app.use(cors({
+            origin: "*"
+        }))
         this.app.use(express.json());
     }
 

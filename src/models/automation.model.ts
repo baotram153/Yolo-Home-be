@@ -5,7 +5,8 @@ export interface Automation {
     set_by_condition: boolean;
     set_by_time: boolean;
     condition: string;
-    threshold: number;
+    upper_bound: number;
+    lower_bound: number;
     interval: number;
     start_time: Date;
     end_time: Date;
@@ -37,7 +38,8 @@ export class AutomationModel extends BaseModel{
                     set_by_condition: automation.set_by_condition,
                     set_by_time: automation.set_by_time,
                     condition: automation.condition,
-                    threshold: automation.threshold,
+                    upper_bound: automation.upper_bound,
+                    lower_bound: automation.lower_bound,
                     interval: automation.interval,
                     start_time: automation.start_time,
                     end_time: automation.end_time,
@@ -55,7 +57,8 @@ export class AutomationModel extends BaseModel{
         set_by_condition: boolean | null, 
         set_by_time: boolean | null, 
         condition: string | null, 
-        threshold: number | null, 
+        upper_bound: number | null,
+        lower_bound: number | null,
         interval: number | null, 
         start_time: Date | null, 
         end_time: Date | null,
@@ -65,7 +68,8 @@ export class AutomationModel extends BaseModel{
             if (set_by_condition) updateData = {...updateData, set_by_condition: set_by_condition}
             if (set_by_time) updateData = {...updateData, set_by_time: set_by_time}
             if (condition) updateData = {...updateData, condition: condition}
-            if (threshold) updateData = {...updateData, threshold: threshold}
+            if (upper_bound) updateData = {...updateData, upper_bound: upper_bound}
+            if (lower_bound) updateData = {...updateData, lower_bound: lower_bound}
             if (interval) updateData = {...updateData, interval: interval}
             if (start_time) updateData = {...updateData, start_time: start_time}
             if (end_time) updateData = {...updateData, end_time: end_time}
@@ -92,6 +96,20 @@ export class AutomationModel extends BaseModel{
             })
             return result
         } catch (error) {
+            console.log(error);
+        }
+    }
+
+    public static async getByCondition(condition: string) {
+        try {
+            const result = await this.prisma.automationScenario.findMany({
+                where: {
+                    condition: condition,
+                },
+            })
+            return result;
+        }
+        catch (error) {
             console.log(error);
         }
     }

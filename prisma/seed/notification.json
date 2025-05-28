@@ -1,23 +1,52 @@
 [
   {
-    "id": "n1111111-1111-1111-1111-111111111111",
+    "id": "a1e3d6e2-79a0-4e8c-9d25-3804b3c7f101",
     "user_id": "11111111-1111-1111-1111-111111111111",
     "type": "warning",
-    "message": "Stranger detected in the living room",
-    "status": "unread"
+    "header": "Stranger detected",
+    "status": "unread",
+    "description": "Motion sensor in the living room detected an unknown person at 14:32.",
+    "created_at": "2025-05-27T07:32:00Z",
+    "updated_at": "2025-05-27T07:32:00Z"
   },
   {
-    "id": "n22222222-2222-2222-2222-222222222222",
-    "user_id": "11111111-1111-1111-1111-111111111111",
-    "type": "warning",
-    "message": "Fire detected in the bedroom",
-    "status": "read"
-  },
-  {
-    "id": "n4444444-4444-4444-4444-444444444444",
-    "user_id": "11111111-1111-1111-1111-111111111111",
+    "id": "b29b9a5f-2f8b-4c7f-92cb-598e8d3d4e52",
+    "user_id": "22222222-2222-2222-2222-222222222222",
     "type": "info",
-    "message": "Front door unlocked",
-    "status": "unread"
+    "header": "Daily summary",
+    "status": "read",
+    "description": "Your home was armed at 22:00 and disarmed at 07:00 with no incidents.",
+    "created_at": "2025-05-26T14:01:00Z",
+    "updated_at": "2025-05-27T09:00:00Z"
+  },
+  {
+    "id": "c8dc2a93-6837-4e04-8c2c-8d3fd1094f0d",
+    "user_id": "33333333-3333-3333-3333-333333333333",
+    "type": "error",
+    "header": "Camera offline",
+    "status": "unread",
+    "description": "Front-door camera lost connection at 19:17. Check Wi-Fi or power.",
+    "created_at": "2025-05-27T12:17:15Z",
+    "updated_at": "2025-05-27T12:17:15Z"
+  },
+  {
+    "id": "d6c1e53e-0f72-428f-909d-07ccbe9d78e6",
+    "user_id": "11111111-1111-1111-1111-111111111111",
+    "type": "success",
+    "header": "Firmware updated",
+    "status": "read",
+    "description": "Smart-lock firmware was updated to v2.4.1 at 03:05 successfully.",
+    "created_at": "2025-05-25T20:05:00Z",
+    "updated_at": "2025-05-25T20:05:00Z"
+  },
+    {
+    "id": "e4fb6cdf-6ebb-46d1-8e7e-fb8e82c031f0",
+    "user_id": "22222222-2222-2222-2222-222222222222",
+    "type": "warning",
+    "header": "Smoke detected",
+    "status": "unread",
+    "description": "Kitchen smoke sensor triggered at 18:42. No heat detected; may be cooking.",
+    "created_at": "2025-05-24T11:42:00Z",
+    "updated_at": "2025-05-24T11:42:00Z"
   }
 ]
